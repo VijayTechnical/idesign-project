@@ -17,17 +17,17 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'Vijay Chapagain',
-            'email' => 'spunkytykoon1@gmail.com',
-            'password' => Hash::make('yeshu4321'),
+            'name' => 'User',
+            'email' => 'user@gmail.com',
+            'password' => Hash::make('user4321'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
             'utype' => 'USR'
         ]);
         DB::table('users')->insert([
-            'name' => 'Bijaya Chapagain',
-            'email' => 'bijay1@gmail.com',
-            'password' => Hash::make('yeshu4321'),
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('admin4321'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
             'utype' => 'ADM'
