@@ -80,7 +80,7 @@
         </div>
         <!-- .block-features / end -->
         <!-- .block-products-carousel -->
-        {{-- <div class="block block-products-carousel" data-layout="grid-5" data-mobile-grid-columns="2">
+        <div class="block block-products-carousel" data-layout="grid-5" data-mobile-grid-columns="2">
             <div class="container">
                 <div class="block-header">
                     <h3 class="block-header__title">Top Sold Products</h3>
@@ -141,7 +141,7 @@
                                                                     @if ($i <= $avgrating)<i
                                                                             class="fa fa-star text-warning"></i>
                                                                     @else
-                                                                        <i class="fa fa-star"></i>
+                                                                        <i class="fa fa-star text-secondary"></i>
                                                                     @endif
                                                                 @endfor
                                                             </div>
@@ -158,12 +158,17 @@
                                                 $discount_percent = ($product->regular_price - $product->sale_price) / 100;
                                             @endphp
                                             <div class="product-card__actions">
-                                                <div class="product-card__prices">Rs. {{ $product->regular_price }}
-                                                </div>
                                                 @if ($product->sale_price > 0)
+                                                    <div class="product-card__prices">Rs. {{ $product->sale_price }}
+                                                    </div>
                                                     <div class="product-card__prices">
-                                                        <del>Rs. {{ $product->sale_price }}</del> <span
-                                                            class="discount_percent">{{ $discount_percent }}%</span>
+                                                        <del>Rs. {{ $product->regular_price }}</del>
+                                                        {{-- <span
+                                                            class="discount_percent">{{ $discount_percent }}%</span> --}}
+                                                    </div>
+                                                @else
+                                                    <div class="product-card__prices">Rs.
+                                                        {{ $product->regular_price }}
                                                     </div>
                                                 @endif
                                                 <div class="product-card__buttons">
@@ -203,7 +208,7 @@
                     @endif
                 </div>
             </div>
-        </div> --}}
+        </div>
         <!-- .block-products-carousel / end -->
         <!-- .block-banner -->
         <div class="block block-banner">
@@ -281,7 +286,7 @@
                                                                     @if ($i <= $avgrating)<i
                                                                             class="fa fa-star text-warning"></i>
                                                                     @else
-                                                                        <i class="fa fa-star"></i>
+                                                                        <i class="fa fa-star text-secondary"></i>
                                                                     @endif
                                                                 @endfor
                                                             </div>
@@ -293,17 +298,18 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            @php
-                                                $discount_percent = ($product->regular_price - $product->sale_price) / 100;
-                                            @endphp
                                             <div class="product-card__actions">
-                                                <div class="product-card__prices">Rs. {{ $product->regular_price }}
-                                                </div>
                                                 @if ($product->sale_price > 0)
+                                                    <div class="product-card__prices">Rs. {{ $product->sale_price }}
+                                                    </div>
                                                     <div class="product-card__prices">
-                                                        <del>Rs. {{ $product->sale_price }}</del> <span
-                                                            class="discount_percent">{{ $discount_percent }}%</span>
+                                                        <del>Rs. {{ $product->regular_price }}</del>
+                                                        {{-- <span
+                                                            class="discount_percent">{{ $discount_percent }}%</span> --}}
+                                                    </div>
+                                                @else
+                                                    <div class="product-card__prices">Rs.
+                                                        {{ $product->regular_price }}
                                                     </div>
                                                 @endif
                                                 <div class="product-card__buttons">
@@ -430,7 +436,7 @@
                                                                     @if ($i <= $avgrating)<i
                                                                             class="fa fa-star text-warning"></i>
                                                                     @else
-                                                                        <i class="fa fa-star"></i>
+                                                                        <i class="fa fa-star text-secondary"></i>
                                                                     @endif
                                                                 @endfor
                                                             </div>
@@ -447,13 +453,17 @@
                                                 $discount_percent = ($product->regular_price - $product->sale_price) / 100;
                                             @endphp
                                             <div class="product-card__actions">
-                                                <div class="product-card__prices">Rs.
-                                                    {{ $product->regular_price }}
-                                                </div>
                                                 @if ($product->sale_price > 0)
+                                                    <div class="product-card__prices">Rs. {{ $product->sale_price }}
+                                                    </div>
                                                     <div class="product-card__prices">
-                                                        <del>Rs. {{ $product->sale_price }}</del> <span
-                                                            class="discount_percent">{{ $discount_percent }}%</span>
+                                                        <del>Rs. {{ $product->regular_price }}</del>
+                                                        {{-- <span
+                                                            class="discount_percent">{{ $discount_percent }}%</span> --}}
+                                                    </div>
+                                                @else
+                                                    <div class="product-card__prices">Rs.
+                                                        {{ $product->regular_price }}
                                                     </div>
                                                 @endif
                                                 <div class="product-card__buttons">

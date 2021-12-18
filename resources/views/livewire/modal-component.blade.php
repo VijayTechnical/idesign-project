@@ -30,7 +30,7 @@
                                                 @if ($i <= $avgrating)<i
                                                         class="fa fa-star text-warning"></i>
                                                 @else
-                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
                                                 @endif
                                             @endfor
                                         </div>
@@ -41,18 +41,24 @@
                                     {{ $product->orderItems->where('rstatus', 1)->count() }} Reviews
                                 </div>
                             </div>
-                            @php
-                                $discount_percent = ($product->regular_price - $product->sale_price) / 100;
-                            @endphp
                             <div class="product-card__actions quickview-cardaction">
-                                <div class="product-card__prices">
-                                    Rs. {{ $product->regular_price }} <del> Rs. {{ $product->sale_price }}</del> <span
-                                        class="discount_percent">{{ $discount_percent }}%</span>
-                                </div>
+                                @if ($product->sale_price > 0)
+                                    <div class="product-card__prices">Rs. {{ $product->sale_price }}
+                                    </div>
+                                    <div class="product-card__prices">
+                                        <del>Rs. {{ $product->regular_price }}</del>
+                                        {{-- <span
+                                        class="discount_percent">{{ $discount_percent }}%</span> --}}
+                                    </div>
+                                @else
+                                    <div class="product-card__prices">Rs.
+                                        {{ $product->regular_price }}
+                                    </div>
+                                @endif
 
                                 <div class="quickview_availability">
                                     <p>
-                                        @if ($product->status === 'instock')
+                                        @if ($product->stock_status === 'instock')
                                             Availability: <span class="quickview-stock">Yes</span>
                                         @else
                                             Availability: <span class="quickview-stock">No</span>
@@ -85,21 +91,25 @@
                             </div>
                             <div class="product-card__buttons quickview-productcard-button">
                                 @if ($product->sale_price > 0)
-                                <a href="#" wire:click.prevent="store({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})">
-                                    <button class="btn btn-primary product-card__addtocart" type="button">
-                                        Add To Cart
-                                    </button>
-                                </a>
+                                    <a href="#"
+                                        wire:click.prevent="store({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})">
+                                        <button class="btn btn-primary product-card__addtocart" type="button">
+                                            Add To Cart
+                                        </button>
+                                    </a>
                                 @else
-                                <a href="#" wire:click.prevent="store({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})">
-                                    <button class="btn btn-primary product-card__addtocart" type="button">
-                                        Add To Cart
-                                    </button>
-                                </a>
+                                    <a href="#"
+                                        wire:click.prevent="store({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})">
+                                        <button class="btn btn-primary product-card__addtocart" type="button">
+                                            Add To Cart
+                                        </button>
+                                    </a>
                                 @endif
-                                <button href="cart.html"
+                                <button
                                     class="btn btn-light btn-svg-icon--fake-svg product-card__wishlist price-calculator-button"
-                                    type="button" style="white-space: nowrap;">
+                                    type="button" style="white-space: nowrap;" data-toggle="modal"
+                                    wire:click.prevent="$emitTo('product-calculator-component', 'open', {{ $product->id }})"
+                                    wire:key="{{ $product->id }}">
                                     Price Calculator
                                 </button>
                             </div>

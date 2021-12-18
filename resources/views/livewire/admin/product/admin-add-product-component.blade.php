@@ -265,6 +265,16 @@
                                 </span>
                             @enderror
                         </div>
+                        <div class="form-group" wire:ignore>
+                            <label for="specifications">Product Specifications</label>
+                            <textarea type="text" class="form-control" rows="7" id="specifications"
+                                placeholder="Enter Product Specifications..." wire:model="specifications"></textarea>
+                            @error('specifications')
+                                <span class="error" role="alert">
+                                    <strong class="text-danger">{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
@@ -294,6 +304,16 @@
                         tinyMCE.triggerSave();
                         var d_data = $('#description').val();
                         @this.set('description', d_data);
+                    });
+                }
+            });
+            tinymce.init({
+                selector: '#specifications',
+                setup: function(editor) {
+                    editor.on('Change', function(e) {
+                        tinyMCE.triggerSave();
+                        var d_data = $('#specifications').val();
+                        @this.set('specifications', d_data);
                     });
                 }
             });

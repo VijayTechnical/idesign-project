@@ -234,7 +234,7 @@
                                             @if (session()->has('checkout'))
                                             <tr>
                                                 <th>Total</th>
-                                                <td>Rs. {{ Session::get('checkout')['total'] }}</td>
+                                                <td>Rs. {{ str_replace(',','',Session::get('checkout')['total']) + 50 }}</td>
                                             </tr>
                                             @endif
                                         </tfoot>

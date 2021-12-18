@@ -1,24 +1,36 @@
 <div>
-    <!-- site__body -->
-    <div class="site__body" style="margin-top: 70px;">
-        <div class="page-header">
-            <div class="page-header__container container">
-                <div class="page-header__breadcrumb">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="index.html">Home</a>
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                New Year Card
-                            </li>
-                        </ol>
-                    </nav>
+    @if ($product)
+        <!-- site__body -->
+        <div class="site__body" style="margin-top: 70px;">
+            <div class="page-header">
+                <div class="page-header__container container">
+                    <div class="page-header__breadcrumb">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('home') }}">Home</a>
+                                    <i class="fa fa-angle-right mt-1"></i>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('home') }}">{{ $product->category->name }}</a>
+                                    <i class="fa fa-angle-right mt-1"></i>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('home') }}">{{ $product->subCategories->name }}</a>
+                                    <i class="fa fa-angle-right mt-1"></i>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('home') }}">{{ $product->childCategories->name }}</a>
+                                    <i class="fa fa-angle-right mt-1"></i>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    {{ $product->name }}
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
             </div>
-        </div>
-        @if ($product)
             <div class="block">
                 <div class="container">
                     <div class="product product--layout--standard" data-layout="standard">
@@ -122,7 +134,7 @@
                                                     @if ($i <= $avgrating)<i
                                                             class="fa fa-star text-warning"></i>
                                                     @else
-                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star text-secondary"></i>
                                                     @endif
                                                 @endfor
                                             </div>
@@ -146,7 +158,7 @@
                         -->
                                 <ul class="product__meta">
                                     <li class="product__meta-availability">
-                                        @if ($product->status === 'instock')
+                                        @if ($product->stock_status === 'instock')
                                             Availability: <span class="text-success">In Stock</span>
                                         @else
                                             Availability: <span class="text-danger">Out Of Stock</span>
@@ -162,14 +174,11 @@
                                 <div class="product__availability">
                                     Availability: <span class="text-success">In Stock</span>
                                 </div>
-                                @php
-                                    $discount_percent = ($product->regular_price - $product->sale_price) / 100;
-                                @endphp
-                                <div class="product-card__prices">Rs. {{ $product->regular_price }}
+                                <div class="product-card__prices">Rs. {{ $product->sale_price }}
                                 </div>
                                 <div class="product-card__prices">
-                                    <del>Rs. {{ $product->sale_price }}</del> <span
-                                        class="discount_percent">{{ $discount_percent }}%</span>
+                                    <del>Rs. {{ $product->regular_price }}</del>
+                                    {{-- <span class="discount_percent">{{ $discount_percent }}%</span> --}}
                                 </div>
                                 <!-- .product__options -->
                                 <div class="color-picker">
@@ -313,69 +322,7 @@
                             </div>
                             <div class="product-tabs__pane" id="tab-specification">
                                 <div class="spec">
-                                    <h4 class="spec__header">Specification</h4>
-                                    <div class="spec__section">
-                                        <h5 class="spec__section-title">General</h5>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Material</div>
-                                            <div class="spec__value">Aluminium,
-                                                Plastic</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Engine
-                                                Type</div>
-                                            <div class="spec__value">Brushless</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Battery
-                                                Voltage</div>
-                                            <div class="spec__value">18 V</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Battery
-                                                Type</div>
-                                            <div class="spec__value">Li-lon</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Number
-                                                of Speeds</div>
-                                            <div class="spec__value">2</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Charge
-                                                Time</div>
-                                            <div class="spec__value">1.08 h</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Weight</div>
-                                            <div class="spec__value">1.5 kg</div>
-                                        </div>
-                                    </div>
-                                    <div class="spec__section">
-                                        <h4 class="spec__section-title">Dimensions</h4>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Length</div>
-                                            <div class="spec__value">99 mm</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Width</div>
-                                            <div class="spec__value">207 mm</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Height</div>
-                                            <div class="spec__value">208 mm</div>
-                                        </div>
-                                    </div>
-                                    <div class="spec__disclaimer">
-                                        Information on technical
-                                        characteristics, the delivery
-                                        set, the country of manufacture and
-                                        the appearance of the
-                                        goods is for reference only and is
-                                        based on the latest
-                                        information available at the time of
-                                        publication.
-                                    </div>
+                                    {!! htmlspecialchars_decode($product->specifications) !!}
                                 </div>
                             </div>
                             <div class="product-tabs__pane" id="tab-reviews">
@@ -404,7 +351,7 @@
                                                                                         <i
                                                                                             class="fa fa-star text-warning"></i>
                                                                                     @else<i
-                                                                                            class="fa fa-star"></i>
+                                                                                            class="fa fa-star text-secondary"></i>
                                                                                     @endif
                                                                                 @endfor
                                                                             </div>
@@ -467,8 +414,8 @@
                     </div>
                 </div>
             </div>
-        @endif
-    </div>
+        </div>
+    @endif
     <div class="block block-products-carousel" data-layout="grid-5" data-mobile-grid-columns="2" wire:ignore>
         @if ($r_products->count() > 0)
             <div class="container">
@@ -538,7 +485,7 @@
                                                                 @if ($i <= $avgrating)
                                                                     <i class="fa fa-star text-warning"></i>
                                                                 @else
-                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star text-secondary"></i>
                                                                 @endif
                                                             @endfor
                                                         </div>
@@ -564,13 +511,12 @@
                                                 <span class="text-success">In
                                                     Stock</span>
                                             </div>
-                                            @php
-                                                $discount_percent = ($product->regular_price - $product->sale_price) / 100;
-                                            @endphp
                                             @if ($product->sale_price > 0)
+                                                <div class="product-card__prices">Rs. {{ $product->sale_price }}
+                                                </div>
                                                 <div class="product-card__prices">
-                                                    <del>Rs. {{ $product->sale_price }}</del> <span
-                                                        class="discount_percent">{{ $discount_percent }}%</span>
+                                                    <del>Rs. {{ $product->regular_price }}</del>
+                                                    {{-- <span class="discount_percent">{{ $discount_percent }}%</span> --}}
                                                 </div>
                                             @endif
                                             <div class="product-card__buttons">

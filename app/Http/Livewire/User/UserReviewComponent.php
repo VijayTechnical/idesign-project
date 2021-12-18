@@ -45,7 +45,11 @@ class UserReviewComponent extends Component
         $orderItem = OrderItem::find($this->order_item_id);
         $orderItem->rstatus = true;
         $orderItem->save();
-        session()->flash('s_review_message','You had sucessfully review this item.');
+        $this->dispatchBrowserEvent('swal:model', [
+            'statuscode' => 'success',
+            'title' => 'Successful',
+            'text' => 'Review added sucessfully.',
+        ]);
         $this->clear();
     }
 
@@ -56,28 +60,9 @@ class UserReviewComponent extends Component
         return redirect()->to('/user/orders');
     }
 
-    public function verifyForReview()
-    {
-        $orders = Order::where('user_id',Auth::user()->id)->get();
-        if($orders)
-        {
-           foreach($orders as $order)
-           {
-               foreach($order->OrderItems as $item){
-                   if($item->rstatus === 1)
-                   {
-                    return redirect()->to('/user/orders');
-                   }
-               }
-           }
-        }
-
-    }
-
 
     public function render()
     {
-        $this->verifyForReview();
         return view('livewire.user.user-review-component')->layout('layouts.base');
     }
 }

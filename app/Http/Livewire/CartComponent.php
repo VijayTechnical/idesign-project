@@ -15,6 +15,12 @@ class CartComponent extends Component
     public $subtotalAfterDiscount;
     public $taxAfterDiscount;
     public $totalAfterDiscount;
+    public $shipping;
+
+    public function mount()
+    {
+        $this->shipping = 50;
+    }
 
 
     public function destroy($rowId){
@@ -134,7 +140,7 @@ class CartComponent extends Component
                 'discount' => $this->discount,
                 'subtotal' => $this->subtotalAfterDiscount,
                 'tax' => $this->taxAfterDiscount,
-                'total' => $this->totalAfterDiscount + 50
+                'total' => $this->totalAfterDiscount
             ]);
         }
         else
@@ -143,7 +149,7 @@ class CartComponent extends Component
                 'discount' => 0,
                 'subtotal' => Cart::instance('cart')->subtotal(),
                 'tax' => Cart::instance('cart')->tax(),
-                'total' => Cart::instance('cart')->total() + 50
+                'total' => Cart::instance('cart')->total()
             ]);
         }
     }

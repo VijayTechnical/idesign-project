@@ -15,11 +15,30 @@ class HomeComponent extends Component
     use WithPagination;
     public $qty;
     public $paginate;
+    public $ts_products = [];
 
     public function mount()
     {
         $this->qty = 1;
         $this->paginate = 12;
+        $ms_products = DB::table('products')
+            ->select([
+                'products.id',
+                DB::raw('COUNT(*) as total_sales'),
+                DB::raw('SUM(IFNULL(products.sale_price, products.regular_price) * order_items.quantity) AS total_price'),
+            ])
+            ->join('order_items', 'order_items.product_id', '=', 'products.id')
+            ->join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivered')
+            ->groupBy('products.id')
+            ->orderByDesc('total_sales')
+            ->get();
+
+        if ($ms_products->count() > 0) {
+            foreach ($ms_products as $ms_product) {
+                $this->ts_products[] = Product::find($ms_product->id);
+            }
+        }
     }
 
     public function store($product_id, $product_name, $product_price)
@@ -36,29 +55,10 @@ class HomeComponent extends Component
 
     public function render()
     {
-        // $ms_products = DB::table('products')
-        //     ->select([
-        //         'products.id',
-        //         DB::raw('COUNT(*) as total_sales'),
-        //         DB::raw('SUM(IFNULL(products.sale_price, products.regular_price) * order_items.quantity) AS total_price'),
-        //     ])
-        //     ->join('order_items', 'order_items.product_id', '=', 'products.id')
-        //     ->join('orders', 'order_items.order_id', '=', 'orders.id')
-        //     ->where('orders.status', 'delivered')
-        //     ->groupBy('products.id')
-        //     ->orderByDesc('total_sales')
-        //     ->get();
-
-        // if ($ms_products->count() > 0) {
-        //     $ts_products = [];
-        //     foreach ($ms_products as $ms_product) {
-        //         $ts_products[] = Product::find($ms_product->id);
-        //     }
-        // }
 
         $r_products = Product::orderBy('created_at', 'DESC')->paginate($this->paginate);
         $sliders = Slider::all();
         $products = Product::paginate($this->paginate);
-        return view('livewire.home-component', ['sliders' => $sliders, 'products' => $products,'r_products' => $r_products])->layout('layouts.base');
+        return view('livewire.home-component', ['sliders' => $sliders, 'products' => $products, 'r_products' => $r_products])->layout('layouts.base');
     }
 }

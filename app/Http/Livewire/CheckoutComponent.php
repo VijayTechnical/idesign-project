@@ -94,7 +94,7 @@ class CheckoutComponent extends Component
         $order->subtotal = str_replace(",", "", session()->get('checkout')['subtotal']);
         $order->discount = str_replace(",", "", session()->get('checkout')['discount']);
         $order->tax = str_replace(",", "", session()->get('checkout')['tax']);
-        $order->total = str_replace(",", "", session()->get('checkout')['total']);
+        $order->total = str_replace(",", "", session()->get('checkout')['total']) + 50;
         $order->firstname =  $this->firstname;
         $order->lastname =  $this->lastname;
         $order->mobile =  $this->mobile;

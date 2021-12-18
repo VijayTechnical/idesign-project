@@ -24,6 +24,7 @@ class AdminEditProductComponent extends Component
     public $short_description;
     public $description;
     public $regular_price;
+    public $specifications;
     public $sale_price;
     public $SKU;
     public $stock_status;
@@ -53,6 +54,7 @@ class AdminEditProductComponent extends Component
         $this->slug = $product->slug;
         $this->short_description = $product->short_description;
         $this->description = $product->description;
+        $this->specifications = $product->specifications;
         $this->regular_price = $product->regular_price;
         $this->sale_price = $product->sale_price;
         $this->SKU = $product->SKU;
@@ -105,6 +107,7 @@ class AdminEditProductComponent extends Component
             'slug' => 'required|unique:products,slug,' . $this->product_id,
             'short_description' => 'required',
             'description' => 'required',
+            'specifications' => 'required',
             'regular_price' => 'required|numeric',
             'sale_price' => 'numeric',
             'SKU' => 'required',
@@ -124,6 +127,7 @@ class AdminEditProductComponent extends Component
             'slug' => 'required|unique:products,slug,' . $this->product_id,
             'short_description' => 'required',
             'description' => 'required',
+            'specifications' => 'required',
             'regular_price' => 'required|numeric',
             'sale_price' => 'numeric',
             'SKU' => 'required',
@@ -139,6 +143,7 @@ class AdminEditProductComponent extends Component
         $product->slug = $this->slug;
         $product->short_description = $this->short_description;
         $product->description = $this->description;
+        $product->specifications = $this->specifications;
         $product->regular_price = $this->regular_price;
         $product->sale_price = $this->sale_price;
         $product->SKU = $this->SKU;
