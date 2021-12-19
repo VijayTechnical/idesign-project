@@ -2,15 +2,21 @@
 
 namespace App\Http\Livewire;
 
+use Carbon\Carbon;
 use App\Models\Product;
 use Livewire\Component;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Livewire\WithFileUploads;
 
 class ProductCalculatorComponent extends Component
 {
+    use WithFileUploads;
+
     public $product;
     public $qty;
     public $sattr = [];
+    public $custom_image;
+    public $imageName;
 
     protected $listeners = ['open' => 'loadModel'];
 
@@ -25,9 +31,28 @@ class ProductCalculatorComponent extends Component
         $this->dispatchBrowserEvent('showProductCalculator');
     }
 
-    public function store($product_id,$product_name,$product_price)
+    public function uploadCustom()
     {
-        Cart::instance('cart')->add($product_id,$product_name,$this->qty,$product_price,$this->sattr)->associate('App\Models\Product');
+        if ($this->custom_image) {
+            $this->imageName = Carbon::now()->timestamp . '.' . $this->custom_image->extension();
+            $this->custom_image->storeAS('public/custom_image', $this->imageName);
+            $this->dispatchBrowserEvent('swal:model', [
+                'statuscode' => 'success',
+                'title' => 'Successful',
+                'text' => 'Image uploaded sucessfully.',
+            ]);
+        }
+    }
+
+    public function store($product_id, $product_name, $product_price)
+    {
+        Cart::instance('cart')->add($product_id, $product_name, $this->qty, $product_price, $this->sattr)->associate('App\Models\Product');
+        if ($this->imageName) {
+            session()->put('custom_image', [
+                'id' => $product_id,
+                'imageName' => $this->imageName
+            ]);
+        }
         $this->dispatchBrowserEvent('swal:model', [
             'statuscode' => 'success',
             'title' => 'Successful',

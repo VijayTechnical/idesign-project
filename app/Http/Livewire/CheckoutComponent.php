@@ -114,6 +114,9 @@ class CheckoutComponent extends Component
             $orderItem->order_id = $order->id;
             $orderItem->price = $item->price;
             $orderItem->quantity = $item->qty;
+            if (session()->has('custom_image')) {
+                $orderItem->custom_image = session()->get('custom_image')['imageName'];
+            }
             if ($item->options) {
                 $orderItem->options = serialize($item->options);
             }
@@ -168,6 +171,7 @@ class CheckoutComponent extends Component
         $this->thankyou = 1;
         Cart::instance('cart')->destroy(Auth::user()->email);
         session()->forget('checkout');
+        session()->forget('custom_image');
         $admin = User::where('utype', 'ADM')->first();
 
         $order = [
@@ -175,7 +179,7 @@ class CheckoutComponent extends Component
             'method' => $this->paymentmode
         ];
 
-        $admin = User::where('utype','ADM')->first();
+        $admin = User::where('utype', 'ADM')->first();
         Notification::send($admin, new OrderNotification($order));
     }
 

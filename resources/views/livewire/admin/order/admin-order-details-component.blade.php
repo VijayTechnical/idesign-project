@@ -62,6 +62,7 @@
                             <thead>
                                 <tr>
                                     <th>Product Name</th>
+                                    <th>Product Custom Image</th>
                                     <th>Product Cost</th>
                                     <th>Product Attributes</th>
                                     <th>Product Quantity</th>
@@ -73,8 +74,12 @@
                                 <tr>
                                     <td>
                                         <img src="{{ asset('/storage/product_image') }}/{{ $item->product->image }}"
-                                            alt="{{ $item->product->name }}" />
+                                            alt="{{ $item->product->name }}" style="width: 50px;height:50px;" />
                                         <span class="pl-2">{{ $item->product->name }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <img src="{{ asset('/storage/custom_image') }}/{{ $item->custom_image }}"
+                                            alt="{{ $item->product->name }}" style="width: 50px;height:50px;" />
                                     </td>
                                     <td>Rs. {{ $item->price }}</td>
                                     <td>

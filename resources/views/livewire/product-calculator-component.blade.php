@@ -77,28 +77,46 @@
                         <div class="card-radio-tile-group quangroup">
                             <h4 class=card-radio-size-heading>Quantity</h4>
                             <div class="card-radio-size-container">
-                                @for ($i = 1; $i < 5; $i++)
-                                    <div class="input-container">
-                                        <input id="front-card" class="radio-button" type="radio" name="radio-quan"
-                                            wire:model="qty" value="{{ $i }}" />
-                                        <div class="radio-tile">
-                                            <div class="icon front-card">
-                                                <div class="quantity_label_number">
-                                                    <p>{{ $i }}</p>
+                                @if ($product->sale_price > 0)
+                                    @for ($i = 1; $i < 5; $i++)
+                                        <div class="input-container">
+                                            <input id="front-card" class="radio-button" type="radio" name="radio-quan"
+                                                wire:model="qty" value="{{ $i }}" />
+                                            <div class="radio-tile">
+                                                <div class="icon front-card">
+                                                    <div class="quantity_label_number">
+                                                        <p>{{ $i }}</p>
+                                                    </div>
                                                 </div>
+                                                <label for="front-card" class="radio-tile-label">Rs.
+                                                    {{ $product->sale_price * $i }}</label>
                                             </div>
-                                            <label for="front-card" class="radio-tile-label">Rs.
-                                                {{ $product->regular_price * $i }}</label>
                                         </div>
-                                    </div>
-                                @endfor
+                                    @endfor
+                                @else
+                                    @for ($i = 1; $i < 5; $i++)
+                                        <div class="input-container">
+                                            <input id="front-card" class="radio-button" type="radio" name="radio-quan"
+                                                wire:model="qty" value="{{ $i }}" />
+                                            <div class="radio-tile">
+                                                <div class="icon front-card">
+                                                    <div class="quantity_label_number">
+                                                        <p>{{ $i }}</p>
+                                                    </div>
+                                                </div>
+                                                <label for="front-card" class="radio-tile-label">Rs.
+                                                    {{ $product->regular_price * $i }}</label>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                @endif
                             </div>
                         </div>
 
 
 
 
-                        <div class="card-radio-tile-group">
+                        {{-- <div class="card-radio-tile-group">
                             <h4 class="card-radio-size-heading">Corner</h4>
                             <div class="card-radio-size-container">
                                 <div class="input-container round-straight">
@@ -124,7 +142,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
 
 
@@ -143,13 +161,19 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="output">
                             <div id="yes" class="colors red">
-                                <form action="">
-                                    <label for="img">Select image:</label>
-                                    <input type="file" id="img" name="img" accept="image/*">
-                                    <input type="submit">
+                                <form action="#" wire:submit.prevent="uploadCustom()" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="img">Select image:</label>
+                                        <input type="file" id="img" name="img" accept="image/*"
+                                            wire:model="custom_image" class="form-control">
+                                        @if ($custom_image)
+                                            <img src="{{ $custom_image->temporaryUrl() }}" width="60" height="60"
+                                                alt="">
+                                        @endif
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Upload</button>
                                 </form>
                             </div>
 

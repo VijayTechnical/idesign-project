@@ -22,6 +22,13 @@
                                         cart-table__column--product">
                                         Product
                                     </th>
+                                    @if (session()->has('custom_image'))
+                                    <th
+                                        class="cart-table__column
+                                        cart-table__column--product">
+                                        Custom Image
+                                    </th>
+                                    @endif
                                     <th
                                         class="cart-table__column
                                         cart-table__column--price">
@@ -68,6 +75,18 @@
                                                     @endforeach
                                                 </ul>
                                             </td>
+                                            @if (session()->has('custom_image'))
+                                                <td
+                                                    class="cart-table__column
+                                        cart-table__column--image">
+                                                    <div class="product-image">
+                                                        <a href="#" class="product-image__body"><img
+                                                                class="product-image__img"
+                                                                src="{{ asset('/storage/custom_image') }}/{{ Session::get('custom_image')['imageName'] }}"
+                                                                alt="{{ Session::get('custom_image')['imageName'] }}" /></a>
+                                                    </div>
+                                                </td>
+                                            @endif
                                             <td class="cart-table__column
                                         cart-table__column--price"
                                                 data-title="Price">
@@ -115,9 +134,9 @@
                                         </tr>
                                     @endforeach
                                 @else
-                                <tr>
-                                    <p class="text-center text-black">No proucts on cart.</p>
-                                </tr>
+                                    <tr>
+                                        <p class="text-center text-black">No proucts on cart.</p>
+                                    </tr>
                                 @endif
                             </tbody>
                         </table>
@@ -189,7 +208,9 @@
                                             @if ($totalAfterDiscount)
                                                 <td>Rs. {{ $totalAfterDiscount }}</td>
                                             @else
-                                                <td>Rs. {{ str_replace(',', '', Cart::instance('cart')->subtotal()) + 50 }}</td>
+                                                <td>Rs.
+                                                    {{ str_replace(',', '', Cart::instance('cart')->subtotal()) + 50 }}
+                                                </td>
                                             @endif
                                         </tr>
                                     </tfoot>
